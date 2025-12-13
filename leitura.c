@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+// Recebe o nome do arquivo e devolve uma estrutura txt com o texto armazenado
 txt leTexto(char nome_arquivo[])
 {
     txt texto;
@@ -18,21 +19,23 @@ txt leTexto(char nome_arquivo[])
         exit(1);
     }
 
-    char buffer[MAX_CHAR];
+    char buffer[MAX_CHAR]; // Buffer para armazenar uma unica linha de texto
 
     while (fgets(buffer, MAX_CHAR, arquivo))
     {
+        // Remove o caractere de quebra de linha que fgets insere automaticamente
         buffer[strcspn(buffer, "\n")] = 0;
         texto.linhas[texto.total_linhas] = malloc((strlen(buffer) + 1) * sizeof(char));
         strcpy(texto.linhas[texto.total_linhas], buffer);
         texto.total_linhas++;
 
+        // Dobra a capacidade do array utilizando realloc
         if (texto.total_linhas == texto.capacidade)
         {
             texto.capacidade *= 2;
             char **aux = realloc(texto.linhas, texto.capacidade * sizeof(char *));
 
-            if (!aux)
+            if (!aux) // Evita memory leak: se nao houver livre aux sera NULL
             {
                 printf("Erro: memoria insuficiente para ler o arquivo");
                 free(texto.linhas);
@@ -47,3 +50,5 @@ txt leTexto(char nome_arquivo[])
 
     return texto;
 }
+
+// OBS: 'texto.linhas' foi alocado dinamicamente e deve ser liberado no final do programa
