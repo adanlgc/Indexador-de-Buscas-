@@ -41,4 +41,8 @@ ocorrencia no no da palavra antiga, se nao, a insere de modo a manter a ordem al
 Alem disso, padroniza a palavra para a sua versao em letras minusculas */
 void insere(lista *lst, char elemento[], int n_linha);
 
+/* Recebe a variavel txt que armazena o texto e devolve um ponteiro para uma lista ligada
+criada nela mesma (o criaLista ja e usado dentro desta funcao) */
+lista *paraLista(txt texto);
+
 #endif

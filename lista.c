@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "lista.h"
+#include "leitura.h"
 
 // Devolve um ponteiro para uma lista vazia
 lista *criaLista()
@@ -145,4 +146,36 @@ void insere(lista *lst, char elemento[], int n_linha)
         else
             lst->primeiro = novo;
     }
+}
+
+/* Recebe a variavel txt que armazena o texto e devolve um ponteiro para uma lista ligada
+criada nela mesma (o criaLista ja e usado dentro desta funcao) */
+lista *paraLista(txt texto)
+{
+    char buffer[MAX_CHAR];    // Buffer para copiar as linhas de texto da estrutura txt
+    char *token;              // Ponteiro que recebe o endereco dos tokens
+    lista *lst = criaLista(); // Ponteiro de lista ligada que sera retornado
+
+    for (int i = 0; i < texto.total_linhas; i++)
+    {
+        strcpy(buffer, texto.linhas[i]);
+
+        // Apaga cada sinal de pontuacao e o substitui por um espaco
+        for (int j = 0; buffer[j] != '\0'; j++)
+        {
+            if (ispunct(buffer[j]) != 0)
+            {
+                buffer[j] = ' ';
+            }
+        }
+        token = strtok(buffer, " \n\t\r");
+
+        // Insere cada token na lista. n_linha = i + 1 pois a contagem e a partir de 1
+        while (token)
+        {
+            insere(lst, token, i + 1);
+            token = strtok(NULL, " \n\t\r");
+        }
+    }
+    return lst;
 }
