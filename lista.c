@@ -2,7 +2,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "lista.h"
-#include "leitura.h"
 
 // Devolve um ponteiro para uma lista vazia
 lista *criaLista()
@@ -18,8 +17,8 @@ lista *criaLista()
 void destroiLista(lista *lst)
 {
     // Todos ponteiros auxiliares
-    no *p = lst->primeiro;
-    no *tmp;
+    no_lista *p = lst->primeiro;
+    no_lista *tmp;
     sublista *p2;
     sublista *tmp2;
 
@@ -46,11 +45,11 @@ void destroiLista(lista *lst)
 /* Recebe um ponteiro para a lista, a palavra buscada, e um ponteiro para um ponteiro de
 um no. Retorna o numero de comparacoes para a busca e passa o endereco da palavra
 encontrada (ou NULL), por meio de ponteiro, para o resultado, fora da funcao */
-int busca(lista *lst, char elemento[], no **resultado)
+int busca(lista *lst, char elemento[], no_lista **resultado)
 {
-    int cmp = 0;           // Contador de comparacoes
-    no *p = lst->primeiro; // Ponteiro auxiliar de no
-    int i = 0;             // Iterador para o while abaixo
+    int cmp = 0;                 // Contador de comparacoes
+    no_lista *p = lst->primeiro; // Ponteiro auxiliar de no
+    int i = 0;                   // Iterador para o while abaixo
 
     // Checa se a lista esta vazia
     if (!p)
@@ -94,8 +93,8 @@ Alem disso, padroniza a palavra para a sua versao em letras minusculas */
 void insere(lista *lst, char elemento[], int n_linha)
 {
     // Ponteiros auxiliares
-    no *p = lst->primeiro;
-    no *anterior = NULL;
+    no_lista *p = lst->primeiro;
+    no_lista *anterior = NULL;
     // Aloca dinamicamente a nova ocorrencia
     sublista *nova_ocorrencia = (sublista *)malloc(sizeof(sublista));
     nova_ocorrencia->linha = n_linha;
@@ -133,7 +132,7 @@ void insere(lista *lst, char elemento[], int n_linha)
     else
     {
         // Alocacao dinamica do novo no e sua palavra, que deve incluir um espaco para \0
-        no *novo = (no *)malloc(sizeof(no));
+        no_lista *novo = (no_lista *)malloc(sizeof(no_lista));
         novo->palavra = (char *)malloc(strlen(elemento) + 1);
         strcpy(novo->palavra, elemento);
         novo->proximo = p;

@@ -1,6 +1,8 @@
 #ifndef LISTA_H
 #define LISTA_H
 
+#include "leitura.h"
+
 // Uma lista simplificada para armazenar as linhas das ocorrencias da palavra buscada
 typedef struct _ocorrencia_
 {
@@ -9,18 +11,18 @@ typedef struct _ocorrencia_
 } sublista;
 
 // No principal para a lista principal, contem a sublista
-typedef struct _no_
+typedef struct _no_lista_
 {
-    struct _no_ *proximo;
+    struct _no_lista_ *proximo;
     char *palavra;         // String com a palavra em letras minusculas
     int quantidade;        // Quantidade de ocorrencias para esta palavra
     sublista *ocorrencias; // "Mini-lista" que armazena as linhas das ocorrencias
-} no;
+} no_lista;
 
 // Lista ligada principal: ordenada em ordem alfabetica
 typedef struct
 {
-    no *primeiro;
+    no_lista *primeiro;
     int tamanho; // Contador para o total de palavras unicas indexadas
 } lista;
 
@@ -33,7 +35,7 @@ void destroiLista(lista *lst);
 /* Recebe um ponteiro para a lista, a palavra buscada, e um ponteiro para um ponteiro de
 um no. Retorna o numero de comparacoes para a busca e passa o endereco da palavra
 encontrada (ou NULL), por meio de ponteiro, para o resultado, fora da funcao */
-int busca(lista *lst, char elemento[], no **resultado);
+int busca(lista *lst, char elemento[], no_lista **resultado);
 
 /* Recebe um ponteiro para a lista, a string da palavra a ser inserida e o numero da
 linha de onde ela veio. Se a palavra ja existir na lista, apenas adiciona a nova
