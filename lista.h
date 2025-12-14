@@ -26,7 +26,7 @@ typedef struct
     int tamanho; // Contador para o total de palavras unicas indexadas
 } lista;
 
-// Devolve uma lista vazia
+// Devolve um ponteiro para uma lista vazia
 lista *criaLista();
 
 // Recebe o ponteiro para uma lista e a destroi
