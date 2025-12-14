@@ -33,7 +33,7 @@ lista *criaLista();
 void destroiLista(lista *lst);
 
 /* Recebe um ponteiro para a lista, a palavra buscada, e um ponteiro para um ponteiro de
-um no. Retorna o numero de comparacoes para a busca e passa o endereco da palavra
+um no vazio. Retorna o numero de comparacoes para a busca e passa o endereco da palavra
 encontrada (ou NULL), por meio de ponteiro, para o resultado, fora da funcao */
 int buscaLista(lista *lst, char elemento[], no_lista **resultado);
 
