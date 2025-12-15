@@ -10,7 +10,7 @@
 // Devolve um ponteiro para uma arvore vazia
 arvore *criaArvore()
 {
-    arvore *arv = (arvore *)malloc(sizeof(arvore));
+    arvore *arv = malloc(sizeof(arvore));
     arv->raiz = NULL;
     arv->tamanho = 0;
     return arv;
@@ -304,9 +304,9 @@ void insereArvore(arvore *arv, char elemento[], int n_linha)
     for (int i = 0; elemento[i] != '\0'; i++)
         elemento[i] = tolower(elemento[i]);
     // Aloca dinamicamente um espaco para o novo no e o inicializa
-    no_arvore *novo = (no_arvore *)malloc(sizeof(no_arvore));
-    novo->palavra = (char *)malloc(strlen(elemento) + 1);
-    novo->ocorrencias = (sublista *)malloc(sizeof(sublista));
+    no_arvore *novo = malloc(sizeof(no_arvore));
+    novo->palavra = malloc(strlen(elemento) + 1);
+    novo->ocorrencias = malloc(sizeof(sublista));
     novo->ocorrencias->linha = n_linha;
     novo->ocorrencias->proximo = NULL;
     strcpy(novo->palavra, elemento);
@@ -330,12 +330,13 @@ void insereArvore(arvore *arv, char elemento[], int n_linha)
 criada nela mesma (o criaArvore ja e usado dentro desta funcao) */
 arvore *paraArvore(txt texto)
 {
-    char buffer[MAX_CHAR];      // Buffer para copiar as linhas de texto da estrutura txt
     char *token;                // Ponteiro que recebe o endereco dos tokens
     arvore *arv = criaArvore(); // Ponteiro de lista ligada que sera retornado
 
     for (int i = 0; i < texto.total_linhas; i++)
     {
+        // Recebe uma linha inteira
+        char *buffer = malloc(strlen(texto.linhas[i]) + 1);
         strcpy(buffer, texto.linhas[i]);
 
         // Apaga cada sinal de pontuacao e o substitui por um espaco
@@ -354,6 +355,8 @@ arvore *paraArvore(txt texto)
             insereArvore(arv, token, i + 1);
             token = strtok(NULL, " \n\t\r");
         }
+        free(buffer);
     }
+
     return arv;
 }

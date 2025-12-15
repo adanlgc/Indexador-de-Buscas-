@@ -1,8 +1,6 @@
 #ifndef LEITURA_H
 #define LEITURA_H
 
-#define MAX_CHAR 2000 // Maximo de caracteres aceitos em uma linha do .txt
-
 // Estrutura principal para armazenar o texto completo, dividido em linhas
 typedef struct
 {

@@ -7,7 +7,7 @@
 // Devolve um ponteiro para uma lista vazia
 lista *criaLista()
 {
-    lista *lst = (lista *)malloc(sizeof(lista));
+    lista *lst = malloc(sizeof(lista));
     lst->primeiro = NULL;
     lst->tamanho = 0;
 
@@ -93,7 +93,7 @@ void insereLista(lista *lst, char elemento[], int n_linha)
     no_lista *p = lst->primeiro;
     no_lista *anterior = NULL;
     // Aloca dinamicamente a nova ocorrencia
-    sublista *nova_ocorrencia = (sublista *)malloc(sizeof(sublista));
+    sublista *nova_ocorrencia = malloc(sizeof(sublista));
     nova_ocorrencia->linha = n_linha;
     nova_ocorrencia->proximo = NULL;
 
@@ -129,8 +129,8 @@ void insereLista(lista *lst, char elemento[], int n_linha)
     else
     {
         // Alocacao dinamica do novo no e sua palavra, que deve incluir um espaco para \0
-        no_lista *novo = (no_lista *)malloc(sizeof(no_lista));
-        novo->palavra = (char *)malloc(strlen(elemento) + 1);
+        no_lista *novo = malloc(sizeof(no_lista));
+        novo->palavra = malloc(strlen(elemento) + 1);
         strcpy(novo->palavra, elemento);
         novo->proximo = p;
         novo->ocorrencias = nova_ocorrencia;
@@ -148,12 +148,13 @@ void insereLista(lista *lst, char elemento[], int n_linha)
 criada nela mesma (o criaLista ja e usado dentro desta funcao) */
 lista *paraLista(txt texto)
 {
-    char buffer[MAX_CHAR];    // Buffer para copiar as linhas de texto da estrutura txt
     char *token;              // Ponteiro que recebe o endereco dos tokens
     lista *lst = criaLista(); // Ponteiro de lista ligada que sera retornado
 
     for (int i = 0; i < texto.total_linhas; i++)
     {
+        // Recebe uma linha inteira
+        char *buffer = malloc(strlen(texto.linhas[i]) + 1);
         strcpy(buffer, texto.linhas[i]);
 
         // Apaga cada sinal de pontuacao e o substitui por um espaco
@@ -172,6 +173,8 @@ lista *paraLista(txt texto)
             insereLista(lst, token, i + 1);
             token = strtok(NULL, " \n\t\r");
         }
+        free(buffer);
     }
+
     return lst;
 }
