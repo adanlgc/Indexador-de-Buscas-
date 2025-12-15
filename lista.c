@@ -49,7 +49,6 @@ int buscaLista(lista *lst, char elemento[], no_lista **resultado)
 {
     int cmp = 0;                 // Contador de comparacoes
     no_lista *p = lst->primeiro; // Ponteiro auxiliar de no
-    int i = 0;                   // Iterador para o while abaixo
 
     // Checa se a lista esta vazia
     if (!p)
@@ -58,12 +57,9 @@ int buscaLista(lista *lst, char elemento[], no_lista **resultado)
         return 0;
     }
 
-    // Converte a palavra para letras minusculas, padronizacao importante nas operacoes
-    while (elemento[i])
-    {
+    // Converte a palavra para letras minusculas, padronizacao para operacoes
+    for (int i = 0; elemento[i] != '\0'; i++)
         elemento[i] = tolower(elemento[i]);
-        i++;
-    }
 
     // Realiza comparacoes ate encontrar uma palavra que nao seja menor que a buscada
     while (p && strcmp(elemento, p->palavra) > 0)
