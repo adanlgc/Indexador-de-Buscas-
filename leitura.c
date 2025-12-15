@@ -1,6 +1,7 @@
 #include "leitura.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 // Recebe o nome do arquivo e devolve uma estrutura txt com o texto armazenado
 txt leTexto(char nome_arquivo[])
