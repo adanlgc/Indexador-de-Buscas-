@@ -169,7 +169,7 @@ lista *paraLista(txt texto)
         // Insere cada token na lista. n_linha = i + 1 pois a contagem e a partir de 1
         while (token)
         {
-            insere(lst, token, i + 1);
+            insereLista(lst, token, i + 1);
             token = strtok(NULL, " \n\t\r");
         }
     }
