@@ -1,9 +1,6 @@
 #ifndef LEITURA_H
 #define LEITURA_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #define MAX_CHAR 2000 // Maximo de caracteres aceitos em uma linha do .txt
 
 // Estrutura principal para armazenar o texto completo, dividido em linhas
