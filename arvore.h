@@ -35,12 +35,12 @@ void destroiArvore(arvore *arv);
 ponteiro de um no vazio. Recursivamente busca pela palavra buscada nos nos inferiores,
 aponta resultado para ela e retorna o numero de comparacoes realizadas. Para ser usado
 pela funcao abaixo */
-int buscaArvoreREC(no_arvore *no, char elemento[], no_arvore **resultado);
+long long int buscaArvoreREC(no_arvore *no, char elemento[], no_arvore **resultado);
 
 /* Recebe um ponteiro para a arvore, a palavra buscada, e um ponteiro para um ponteiro de
 um no vazio. Retorna o numero de comparacoes para a busca e passa o endereco da palavra
 encontrada (ou NULL), por meio de ponteiro, para o resultado, fora da funcao */
-int buscaArvore(arvore *arv, char elemento[], no_arvore **resultado);
+long long int buscaArvore(arvore *arv, char elemento[], no_arvore **resultado);
 
 // Funcao auxiliar que retorna o maior entre dois numeros
 int max(int a, int b);
@@ -61,16 +61,16 @@ no_arvore *rotacaoR(no_arvore *p);
 /* Recebe um ponteiro para uma arvore, outros para os nos da raiz, do pai (ou NULL) e do
 novo no a ser inserido, e o insere de modo a manter a ordenacao. Funcao auxiliar, retorna
 o numero de comparacoes realizadas na operacao */
-int insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *novo);
+long long int insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *novo);
 
 /* Utiliza a funcao auxiliar insereArvoreREC para inserir um par palavra-linha na
 arvore. Recebe um ponteiro para arvore, uma string com a palavra e um inteiro com o
 numero da linha, retorna o numero de comparacoes realizadas na operacao */
-int insereArvore(arvore *arv, char elemento[], int n_linha);
+long long int insereArvore(arvore *arv, char elemento[], int n_linha);
 
 /* Recebe a variavel txt que armazena e um ponteiro para um ponteiro vazio de arvore AVL.
 Retorna o numero de comparacoes realizadas para a criacao do indice e aponta o ponteiro
 de ponteiro de arvore recebido para o indice final */
-int paraArvore(txt texto, arvore **arv);
+long long int paraArvore(txt texto, arvore **arv);
 
 #endif

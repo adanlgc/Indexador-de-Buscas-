@@ -35,18 +35,18 @@ void destroiLista(lista *lst);
 /* Recebe um ponteiro para a lista, a palavra buscada, e um ponteiro para um ponteiro de
 um no vazio. Retorna o numero de comparacoes para a busca e passa o endereco da palavra
 encontrada (ou NULL), por meio de ponteiro, para o resultado, fora da funcao */
-int buscaLista(lista *lst, char elemento[], no_lista **resultado);
+long long int buscaLista(lista *lst, char elemento[], no_lista **resultado);
 
 /* Recebe um ponteiro para a lista, a string da palavra a ser inserida e o numero da
 linha de onde ela veio. Se a palavra ja existir na lista, apenas adiciona a nova
 ocorrencia no no da palavra antiga, se nao, a insere de modo a manter a ordem alfabetica.
 Alem disso, padroniza a palavra para a sua versao em letras minusculas. Retorna o numero
 comparacoes realizadas na operacao */
-int insereLista(lista *lst, char elemento[], int n_linha);
+long long int insereLista(lista *lst, char elemento[], int n_linha);
 
 /* Recebe a variavel txt que armazena o texto e um ponteiro para um ponteiro vazio de
 lista ligada. Retorna o numero de comparacoes realizadas para a criacao do indice e
 aponta o ponteiro de ponteiro de lista recebido para o indice final */
-int paraLista(txt texto, lista **lst0);
+long long int paraLista(txt texto, lista **lst0);
 
 #endif
