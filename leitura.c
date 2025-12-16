@@ -38,7 +38,7 @@ txt leTexto(char nome_arquivo[])
 
             if (!aux) // Evita memory leak: se nao houver livre aux sera NULL
             {
-                printf("Erro: Memoria insuficiente para ler o arquivo\n");
+                printf("Erro: memoria insuficiente para ler o arquivo\n");
                 free(buffer);
                 free(texto.linhas);
                 fclose(arquivo);
@@ -80,5 +80,14 @@ txt leTexto(char nome_arquivo[])
     free(buffer);
     return texto;
 }
-
 // OBS: 'texto.linhas' foi alocado dinamicamente e deve ser liberado no final do programa
+
+// Recebe um ponteiro para txt e o destroi
+void destroiTexto(txt *texto)
+{
+    for (int i = 0; i < texto->total_linhas; i++)
+    {
+        free(texto->linhas[i]);
+    }
+    free(texto->linhas);
+}

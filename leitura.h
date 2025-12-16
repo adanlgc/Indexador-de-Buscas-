@@ -12,4 +12,7 @@ typedef struct
 // Recebe o nome do arquivo e devolve uma estrutura txt com o texto armazenado
 txt leTexto(char nome_arquivo[]);
 
+// Recebe um ponteiro para txt e o destroi
+void destroiTexto(txt *texto);
+
 #endif
