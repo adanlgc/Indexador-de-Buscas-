@@ -92,12 +92,12 @@ int main(int argc, char *argv[])
     if (modo == LISTA)
     {
         lista *lst;
-        int cmp = paraLista(texto, &lst);
+        long long int cmp = paraLista(texto, &lst);
         printf("Arquivo: '%s'\n", argv[1]);
         printf("Tipo de indice: 'lista'\n");
         printf("Numero de linhas no arquivo: %d\n", texto.total_linhas);
         printf("Total de palavras unicas indexadas: %d\n", lst->tamanho);
-        printf("Numero de comparacoes realizadas para a construcao do indice: %d", cmp);
+        printf("Numero de comparacoes realizadas para a construcao do indice: %lld", cmp);
         printf("\n> ");
 
         char *comando = leComando();
@@ -220,13 +220,13 @@ int main(int argc, char *argv[])
     if (modo == ARVORE)
     {
         arvore *arv;
-        int cmp = paraArvore(texto, &arv);
+        long long int cmp = paraArvore(texto, &arv);
         printf("Arquivo: '%s'\n", argv[1]);
         printf("Tipo de indice: 'arvore'\n");
         printf("Numero de linhas no arquivo: %d\n", texto.total_linhas);
         printf("Total de palavras unicas indexadas: %d\n", arv->tamanho);
         printf("Altura da arvore: %d\n", arv->raiz ? arv->raiz->h : -1);
-        printf("Numero de comparacoes realizadas para a construcao do indice: %d", cmp);
+        printf("Numero de comparacoes realizadas para a construcao do indice: %lld", cmp);
         printf("\n> ");
 
         char *comando = leComando();
