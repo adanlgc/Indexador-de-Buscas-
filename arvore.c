@@ -189,9 +189,12 @@ no_arvore *rotacaoR(no_arvore *p)
 }
 
 /* Recebe um ponteiro para uma arvore, outros para os nos da raiz, do pai (ou NULL) e do
-novo no a ser inserido, e o insere de modo a manter a ordenacao. Funcao auxiliar */
-void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *novo)
+novo no a ser inserido, e o insere de modo a manter a ordenacao. Funcao auxiliar, retorna
+o numero de comparacoes realizadas na operacao */
+int insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *novo)
 {
+    // Contador de comparacoes realizadas em insereArvoreREC
+    int cmp = 0;
     // Armazena o no rotacionado
     no_arvore *rot;
     // Ponteiros auxiliares
@@ -199,6 +202,7 @@ void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *no
     sublista *tmp;
     // Valor de comparacao entre a palavra buscada e a palavra do no atual
     int relacao = strcmp(novo->palavra, raiz->palavra);
+    cmp++;
 
     // Palavra e diferente da atual
     if (relacao != 0)
@@ -210,7 +214,7 @@ void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *no
             os nos subjacentes */
             if (raiz->esq)
             {
-                insereArvoreREC(arv, raiz->esq, raiz, novo);
+                cmp += insereArvoreREC(arv, raiz->esq, raiz, novo);
                 atualizaAltura(raiz);
 
                 // No desbalanceado, realiza rotacao em L
@@ -229,7 +233,7 @@ void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *no
                         arv->raiz = rot;
                 }
 
-                return;
+                return cmp;
             }
             else
             {
@@ -245,7 +249,7 @@ void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *no
             os nos subjacentes */
             if (raiz->dir)
             {
-                insereArvoreREC(arv, raiz->dir, raiz, novo);
+                cmp += insereArvoreREC(arv, raiz->dir, raiz, novo);
                 atualizaAltura(raiz);
 
                 // No desbalanceado, realiza rotacao em R
@@ -264,7 +268,7 @@ void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *no
                         arv->raiz = rot;
                 }
 
-                return;
+                return cmp;
             }
             else
             {
@@ -277,9 +281,10 @@ void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *no
         // Atualiza o contador de tamanho da arvore
         arv->tamanho++;
 
-        return;
+        return cmp;
     }
     // Palavra ja existe na arvore, atualiza a lista de ocorrencias
+    raiz->quantidade++;
     p = raiz->ocorrencias;
 
     while (p)
@@ -292,13 +297,13 @@ void insereArvoreREC(arvore *arv, no_arvore *raiz, no_arvore *pai, no_arvore *no
     free(novo->palavra);
     free(novo);
 
-    return;
+    return cmp;
 }
 
 /* Utiliza a funcao auxiliar insereArvoreREC para inserir um par palavra-linha na
 arvore. Recebe um ponteiro para arvore, uma string com a palavra e um inteiro com o
-numero da linha */
-void insereArvore(arvore *arv, char elemento[], int n_linha)
+numero da linha, retorna o numero de comparacoes realizadas na operacao */
+int insereArvore(arvore *arv, char elemento[], int n_linha)
 {
     // Converte a palavra para letras minusculas, padronizacao para operacoes
     for (int i = 0; elemento[i] != '\0'; i++)
@@ -306,6 +311,7 @@ void insereArvore(arvore *arv, char elemento[], int n_linha)
     // Aloca dinamicamente um espaco para o novo no e o inicializa
     no_arvore *novo = malloc(sizeof(no_arvore));
     novo->palavra = malloc(strlen(elemento) + 1);
+    novo->quantidade = 1;
     novo->ocorrencias = malloc(sizeof(sublista));
     novo->ocorrencias->linha = n_linha;
     novo->ocorrencias->proximo = NULL;
@@ -315,23 +321,21 @@ void insereArvore(arvore *arv, char elemento[], int n_linha)
 
     // Arvore nao esta vazia, inicializa recursao de insercao
     if (arv->raiz)
-    {
-        insereArvoreREC(arv, arv->raiz, NULL, novo);
-
-        return;
-    }
+        return insereArvoreREC(arv, arv->raiz, NULL, novo);
     // Arvore vazia, novo no vira a raiz
     arv->raiz = novo;
 
-    return;
+    return 0;
 }
 
-/* Recebe a variavel txt que armazena o texto e devolve um ponteiro para uma arvore AVL
-criada nela mesma (o criaArvore ja e usado dentro desta funcao) */
-arvore *paraArvore(txt texto)
+/* Recebe a variavel txt que armazena e um ponteiro para um ponteiro vazio de arvore AVL.
+Retorna o numero de comparacoes realizadas para a criacao do indice e aponta o ponteiro
+de ponteiro de arvore recebido para o indice final */
+int paraArvore(txt texto, arvore **arv0)
 {
-    char *token;                // Ponteiro que recebe o endereco dos tokens
-    arvore *arv = criaArvore(); // Ponteiro de lista ligada que sera retornado
+    int cmp = 0;                 // Contador de comparacoes realizadas em paraArvore
+    char *token;                 // Ponteiro que recebe o endereco dos tokens
+    arvore *arv1 = criaArvore(); // Passa um endereco de arvore vazia para o ponteiro
 
     for (int i = 0; i < texto.total_linhas; i++)
     {
@@ -352,11 +356,12 @@ arvore *paraArvore(txt texto)
         // Insere cada token na lista. n_linha = i + 1 pois a contagem e a partir de 1
         while (token)
         {
-            insereArvore(arv, token, i + 1);
+            cmp += insereArvore(arv1, token, i + 1);
             token = strtok(NULL, " \n\t\r");
         }
         free(buffer);
     }
+    *arv0 = arv1;
 
-    return arv;
+    return cmp;
 }

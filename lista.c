@@ -86,9 +86,12 @@ int buscaLista(lista *lst, char elemento[], no_lista **resultado)
 /* Recebe um ponteiro para a lista, a string da palavra a ser inserida e o numero da
 linha de onde ela veio. Se a palavra ja existir na lista, apenas adiciona a nova
 ocorrencia no no da palavra antiga, se nao, a insere de modo a manter a ordem alfabetica.
-Alem disso, padroniza a palavra para a sua versao em letras minusculas */
-void insereLista(lista *lst, char elemento[], int n_linha)
+Alem disso, padroniza a palavra para a sua versao em letras minusculas. Retorna o numero
+comparacoes realizadas na operacao */
+int insereLista(lista *lst, char elemento[], int n_linha)
 {
+    int cmp = 0;     // Contador de comparacoes realizadas em insereLista
+    int relacao = 0; // Para armazenar o valor de strcmp
     // Ponteiros auxiliares
     no_lista *p = lst->primeiro;
     no_lista *anterior = NULL;
@@ -106,14 +109,16 @@ void insereLista(lista *lst, char elemento[], int n_linha)
     // Aponta 'p' para o proximo do novo, e 'anterior' para o anterior ao novo
     while (p)
     {
-        if (strcmp(elemento, p->palavra) < 0)
+        relacao = strcmp(elemento, p->palavra);
+        cmp++;
+        if (relacao <= 0)
             break;
         anterior = p;
         p = p->proximo;
     }
 
     // Verifica se a palavra a ser inserida ja existe, se sim adiciona a nova ocorrencia
-    if (p && strcmp(elemento, p->palavra) == 0)
+    if (p && relacao == 0)
     {
         // Outro ponteiro auxiliar
         sublista *p2 = p->ocorrencias;
@@ -135,6 +140,7 @@ void insereLista(lista *lst, char elemento[], int n_linha)
         novo->proximo = p;
         novo->ocorrencias = nova_ocorrencia;
         novo->quantidade = 1;
+        lst->tamanho++;
 
         // Faz as conexoes para os casos: no e o primeiro da lista ou ha um anterior
         if (anterior)
@@ -142,14 +148,18 @@ void insereLista(lista *lst, char elemento[], int n_linha)
         else
             lst->primeiro = novo;
     }
+
+    return cmp;
 }
 
-/* Recebe a variavel txt que armazena o texto e devolve um ponteiro para uma lista ligada
-criada nela mesma (o criaLista ja e usado dentro desta funcao) */
-lista *paraLista(txt texto)
+/* Recebe a variavel txt que armazena o texto e um ponteiro para um ponteiro vazio de
+lista ligada. Retorna o numero de comparacoes realizadas para a criacao do indice e
+aponta o ponteiro de ponteiro de lista recebido para o indice final */
+int paraLista(txt texto, lista **lst0)
 {
-    char *token;              // Ponteiro que recebe o endereco dos tokens
-    lista *lst = criaLista(); // Ponteiro de lista ligada que sera retornado
+    int cmp = 0;
+    char *token;               // Ponteiro que recebe o endereco dos tokens
+    lista *lst1 = criaLista(); // Ponteiro de lista ligada que sera retornado
 
     for (int i = 0; i < texto.total_linhas; i++)
     {
@@ -170,11 +180,12 @@ lista *paraLista(txt texto)
         // Insere cada token na lista. n_linha = i + 1 pois a contagem e a partir de 1
         while (token)
         {
-            insereLista(lst, token, i + 1);
+            cmp += insereLista(lst1, token, i + 1);
             token = strtok(NULL, " \n\t\r");
         }
         free(buffer);
     }
+    *lst0 = lst1;
 
-    return lst;
+    return cmp;
 }
