@@ -358,6 +358,7 @@ int insereArvore(arvore *arv, char elemento[], int n_linha)
         return insereArvoreREC(arv, arv->raiz, NULL, novo);
     // Arvore vazia, novo no vira a raiz
     arv->raiz = novo;
+    arv->tamanho++;
 
     return 0;
 }
