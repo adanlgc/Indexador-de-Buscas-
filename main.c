@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     // Checagem de seguranca: usuario esqueceu algum parametro
     if (argc < 3)
     {
-        printf("Erro: arquivo faltando\n");
+        printf("Erro: parametro faltando\n");
 
         exit(1);
     }
