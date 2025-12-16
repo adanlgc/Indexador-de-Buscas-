@@ -38,7 +38,7 @@ txt leTexto(char nome_arquivo[])
 
             if (!aux) // Evita memory leak: se nao houver livre aux sera NULL
             {
-                printf("Erro: Memoria insuficiente para ler o arquivo");
+                printf("Erro: Memoria insuficiente para ler o arquivo\n");
                 free(buffer);
                 free(texto.linhas);
                 fclose(arquivo);
@@ -65,7 +65,7 @@ txt leTexto(char nome_arquivo[])
 
             if (!aux) // Evita memory leak: se nao houver livre aux sera NULL
             {
-                printf("Erro: memoria insuficiente para ler o arquivo");
+                printf("Erro: memoria insuficiente para ler o arquivo\n");
                 free(buffer);
                 free(texto.linhas);
                 fclose(arquivo);
