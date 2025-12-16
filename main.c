@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
                             p = p->proximo;
                         }
                     }
-                    printf("Numero de comparacoes: %d\n", cmp);
+                    printf("Numero de comparacoes: %lld\n", cmp);
                 }
             }
             // Usuario digitou um comando errado
@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
                             p = p->proximo;
                         }
                     }
-                    printf("Numero de comparacoes: %d\n", cmp);
+                    printf("Numero de comparacoes: %lld\n", cmp);
                 }
             }
             // Usuario digitou um comando errado
