@@ -199,4 +199,127 @@ int main(int argc, char *argv[])
 
         return 0;
     }
+
+    if (modo == ARVORE)
+    {
+        arvore *arv;
+        int cmp = paraArvore(texto, &arv);
+        printf("Arquivo: '%s'\n", argv[1]);
+        printf("Tipo de indice: 'arvore'\n");
+        printf("Numero de linhas no arquivo: %d\n", texto.total_linhas);
+        printf("Total de palavras unicas indexadas: %d\n", arv->tamanho);
+        printf("Altura da arvore: %d\n", arv->raiz ? arv->raiz->h : -1);
+        printf("Numero de comparacoes realizadas para a construcao do indice: %d", cmp);
+        printf("\n> ");
+
+        char *comando = leComando();
+
+        // Realloc falhou/falta de espaco: apaga tudo e sai do programa
+        if (!comando)
+        {
+            destroiArvore(arv);
+            destroiTexto(&texto);
+            free(comando);
+            exit(1);
+        }
+        char *token = strtok(comando, " ");
+        no_arvore *resultado; // Para armazenar o no da busca
+
+        // Usuario nao digitou nada ou houve erro, abre o campo novamente
+        while (!token)
+        {
+            printf("\n> ");
+            free(comando);
+            comando = leComando();
+
+            if (!comando)
+            {
+                destroiArvore(arv);
+                destroiTexto(&texto);
+                free(comando);
+                exit(1);
+            }
+            token = strtok(comando, " ");
+        }
+
+        // Repete a interacao ate o comando ser "fim"
+        while (strcmp(token, "fim") != 0)
+        {
+            // Usuario iniciou uma busca
+            if (strcmp(token, "busca") == 0)
+            {
+                token = strtok(NULL, " ");
+
+                // Usuario nao digitou a palavra
+                if (!token)
+                    printf("Opcao invalida!\n");
+                else
+                {
+                    cmp = buscaArvore(arv, token, &resultado);
+
+                    // Palavra digitada nao foi encontrada
+                    if (!resultado)
+                    {
+                        printf("Palavra '%s' nao encontrada.\n", token);
+                    }
+                    // Palavra digitada foi encontrada
+                    else
+                    {
+                        printf("Existem %d ocorrencias da palavra", resultado->quantidade);
+                        printf("'%s' na(s) seguinte(s) linha(s):\n", resultado->palavra);
+                        sublista *p = resultado->ocorrencias;
+
+                        // Imprime todas as ocorrencias da palavra
+                        while (p)
+                        {
+                            printf("%05d: %s\n", p->linha, texto.linhas[p->linha - 1]);
+                            p = p->proximo;
+                        }
+                    }
+                    printf("Numero de comparacoes: %d\n", cmp);
+                }
+            }
+            // Usuario digitou um comando errado
+            else
+            {
+                printf("Opcao invalida!\n");
+            }
+            printf("> ");
+            // Segunda leitura: pode ser "fim", por isso e lido antes do fim do laco
+            free(comando);
+            comando = leComando();
+
+            if (!comando)
+            {
+                destroiArvore(arv);
+                destroiTexto(&texto);
+                free(comando);
+                exit(1);
+            }
+            token = strtok(comando, " ");
+
+            // Usuario nao digitou nada ou houve erro, abre o campo novamente
+            while (!token)
+            {
+                printf("\n> ");
+                free(comando);
+                comando = leComando();
+
+                if (!comando)
+                {
+                    destroiArvore(arv);
+                    destroiTexto(&texto);
+                    free(comando);
+                    exit(1);
+                }
+                token = strtok(comando, " ");
+            }
+        }
+        // Usuario encerrou o programa, apaga tudo e sai
+        free(comando);
+        destroiTexto(&texto);
+        destroiArvore(arv);
+
+        return 0;
+    }
 }
