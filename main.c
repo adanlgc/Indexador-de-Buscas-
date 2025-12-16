@@ -161,6 +161,12 @@ int main(int argc, char *argv[])
                         while (p)
                         {
                             printf("%05d: %s\n", p->linha, texto.linhas[p->linha - 1]);
+
+                            // Pula linhas repetidas
+                            while (p->proximo && p->proximo->linha == p->linha)
+                            {
+                                p = p->proximo;
+                            }
                             p = p->proximo;
                         }
                     }
@@ -284,6 +290,12 @@ int main(int argc, char *argv[])
                         while (p)
                         {
                             printf("%05d: %s\n", p->linha, texto.linhas[p->linha - 1]);
+
+                            // Pula linhas repetidas
+                            while (p->proximo && p->proximo->linha == p->linha)
+                            {
+                                p = p->proximo;
+                            }
                             p = p->proximo;
                         }
                     }
