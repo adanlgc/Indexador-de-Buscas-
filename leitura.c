@@ -12,6 +12,13 @@ txt leTexto(char nome_arquivo[])
     int chunk_inicial = 128; // Capacidade inicial para o tamanho das linhas
     // Alocacao dinamica inicial da quantidade de linhas e inicializacao da leitura
     texto.linhas = malloc(texto.capacidade * sizeof(char *));
+
+    if (!texto.linhas)
+    {
+        printf("Erro: memoria insuficiente\n");
+
+        exit(1);
+    }
     FILE *arquivo = fopen(nome_arquivo, "r");
 
     if (!arquivo) // Checagem de seguranca: fopen falhou
@@ -24,6 +31,15 @@ txt leTexto(char nome_arquivo[])
 
     // Buffer para armazenar uma unica linha de texto
     char *buffer = malloc(chunk_inicial);
+
+    if (!buffer)
+    {
+        printf("Erro: memoria insuficiente\n");
+        free(texto.linhas);
+        fclose(arquivo);
+
+        exit(1);
+    }
 
     while (fgets(buffer, chunk_inicial, arquivo))
     {
@@ -40,8 +56,13 @@ txt leTexto(char nome_arquivo[])
             {
                 printf("Erro: memoria insuficiente para ler o arquivo\n");
                 free(buffer);
-                free(texto.linhas);
+
+                for (int i = 0; i < texto.total_linhas; i++)
+                {
+                    free(texto.linhas[i]);
+                }
                 fclose(arquivo);
+                free(texto.linhas);
 
                 exit(1);
             }
@@ -54,6 +75,21 @@ txt leTexto(char nome_arquivo[])
         // Remove o caractere de quebra de linha que fgets insere automaticamente
         buffer[strcspn(buffer, "\n")] = 0;
         texto.linhas[texto.total_linhas] = malloc((strlen(buffer) + 1) * sizeof(char));
+
+        if (!texto.linhas[texto.total_linhas])
+        {
+            printf("Erro: memoria insuficiente\n");
+
+            for (int i = texto.total_linhas - 1; i >= 0; i--)
+            {
+                free(texto.linhas[i]);
+            }
+            free(texto.linhas);
+            free(buffer);
+            fclose(arquivo);
+
+            exit(1);
+        }
         strcpy(texto.linhas[texto.total_linhas], buffer);
         texto.total_linhas++;
 
@@ -67,6 +103,11 @@ txt leTexto(char nome_arquivo[])
             {
                 printf("Erro: memoria insuficiente para ler o arquivo\n");
                 free(buffer);
+
+                for (int i = 0; i < texto.total_linhas; i++)
+                {
+                    free(texto.linhas[i]);
+                }
                 free(texto.linhas);
                 fclose(arquivo);
 

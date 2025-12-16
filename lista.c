@@ -8,6 +8,13 @@
 lista *criaLista()
 {
     lista *lst = malloc(sizeof(lista));
+
+    if (!lst)
+    {
+        printf("Erro: memoria insuficiente\n");
+
+        exit(1);
+    }
     lst->primeiro = NULL;
     lst->tamanho = 0;
 
@@ -97,6 +104,14 @@ int insereLista(lista *lst, char elemento[], int n_linha)
     no_lista *anterior = NULL;
     // Aloca dinamicamente a nova ocorrencia
     sublista *nova_ocorrencia = malloc(sizeof(sublista));
+
+    if (!nova_ocorrencia)
+    {
+        printf("Erro: memoria insuficiente\n");
+        destroiLista(lst);
+
+        exit(1);
+    }
     nova_ocorrencia->linha = n_linha;
     nova_ocorrencia->proximo = NULL;
 
@@ -135,7 +150,27 @@ int insereLista(lista *lst, char elemento[], int n_linha)
     {
         // Alocacao dinamica do novo no e sua palavra, que deve incluir um espaco para \0
         no_lista *novo = malloc(sizeof(no_lista));
+
+        if (!novo)
+        {
+            printf("Erro: memoria insuficiente\n");
+            destroiLista(lst);
+            free(nova_ocorrencia);
+
+            exit(1);
+        }
         novo->palavra = malloc(strlen(elemento) + 1);
+
+        if (!novo->palavra)
+        {
+            printf("Erro: memoria insuficiente\n");
+            destroiLista(lst);
+            free(nova_ocorrencia);
+            free(novo);
+
+            exit(1);
+        }
+
         strcpy(novo->palavra, elemento);
         novo->proximo = p;
         novo->ocorrencias = nova_ocorrencia;
@@ -165,6 +200,14 @@ int paraLista(txt texto, lista **lst0)
     {
         // Recebe uma linha inteira
         char *buffer = malloc(strlen(texto.linhas[i]) + 1);
+
+        if (!buffer)
+        {
+            printf("Erro: memoria insuficiente\n");
+            destroiLista(lst1);
+
+            exit(1);
+        }
         strcpy(buffer, texto.linhas[i]);
 
         // Apaga cada sinal de pontuacao e o substitui por um espaco

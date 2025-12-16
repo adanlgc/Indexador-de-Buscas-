@@ -18,6 +18,13 @@ char *leComando()
     // Tamanho inicial da string que armazena o comando
     int tam_cmd = 16;
     char *comando = malloc(tam_cmd);
+
+    if (!comando)
+    {
+        printf("Erro: memoria insuficiente\n");
+
+        exit(1);
+    }
     // Variaveis auxiliares
     int c;
     char *aux;
@@ -35,6 +42,7 @@ char *leComando()
             else
             {
                 printf("Erro: memoria insuficiente para a leitura do comando\n");
+                free(comando);
                 return NULL;
             }
         }
@@ -96,7 +104,6 @@ int main(int argc, char *argv[])
         {
             destroiLista(lst);
             destroiTexto(&texto);
-            free(comando);
             exit(1);
         }
         char *token = strtok(comando, " ");
@@ -113,7 +120,6 @@ int main(int argc, char *argv[])
             {
                 destroiLista(lst);
                 destroiTexto(&texto);
-                free(comando);
                 exit(1);
             }
             token = strtok(comando, " ");
@@ -170,7 +176,6 @@ int main(int argc, char *argv[])
             {
                 destroiLista(lst);
                 destroiTexto(&texto);
-                free(comando);
                 exit(1);
             }
             token = strtok(comando, " ");
@@ -186,7 +191,6 @@ int main(int argc, char *argv[])
                 {
                     destroiLista(lst);
                     destroiTexto(&texto);
-                    free(comando);
                     exit(1);
                 }
                 token = strtok(comando, " ");
@@ -219,7 +223,6 @@ int main(int argc, char *argv[])
         {
             destroiArvore(arv);
             destroiTexto(&texto);
-            free(comando);
             exit(1);
         }
         char *token = strtok(comando, " ");
@@ -236,7 +239,6 @@ int main(int argc, char *argv[])
             {
                 destroiArvore(arv);
                 destroiTexto(&texto);
-                free(comando);
                 exit(1);
             }
             token = strtok(comando, " ");
@@ -293,7 +295,6 @@ int main(int argc, char *argv[])
             {
                 destroiArvore(arv);
                 destroiTexto(&texto);
-                free(comando);
                 exit(1);
             }
             token = strtok(comando, " ");
@@ -309,7 +310,6 @@ int main(int argc, char *argv[])
                 {
                     destroiArvore(arv);
                     destroiTexto(&texto);
-                    free(comando);
                     exit(1);
                 }
                 token = strtok(comando, " ");

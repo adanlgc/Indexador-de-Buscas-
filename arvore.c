@@ -11,6 +11,13 @@
 arvore *criaArvore()
 {
     arvore *arv = malloc(sizeof(arvore));
+
+    if (!arv)
+    {
+        printf("Erro: memoria insuficiente\n");
+
+        exit(1);
+    }
     arv->raiz = NULL;
     arv->tamanho = 0;
     return arv;
@@ -310,9 +317,36 @@ int insereArvore(arvore *arv, char elemento[], int n_linha)
         elemento[i] = tolower(elemento[i]);
     // Aloca dinamicamente um espaco para o novo no e o inicializa
     no_arvore *novo = malloc(sizeof(no_arvore));
+
+    if (!novo)
+    {
+        printf("Erro: memoria insuficiente\n");
+        destroiArvore(arv);
+
+        exit(1);
+    }
     novo->palavra = malloc(strlen(elemento) + 1);
+
+    if (!novo->palavra)
+    {
+        printf("Erro: memoria insuficiente\n");
+        destroiArvore(arv);
+        free(novo);
+
+        exit(1);
+    }
     novo->quantidade = 1;
     novo->ocorrencias = malloc(sizeof(sublista));
+
+    if (!novo->ocorrencias)
+    {
+        printf("Erro: memoria insuficiente\n");
+        destroiArvore(arv);
+        free(novo);
+        free(novo->palavra);
+
+        exit(1);
+    }
     novo->ocorrencias->linha = n_linha;
     novo->ocorrencias->proximo = NULL;
     strcpy(novo->palavra, elemento);
@@ -341,6 +375,14 @@ int paraArvore(txt texto, arvore **arv0)
     {
         // Recebe uma linha inteira
         char *buffer = malloc(strlen(texto.linhas[i]) + 1);
+
+        if (!buffer)
+        {
+            printf("Erro: memoria insuficiente\n");
+            destroiArvore(arv1);
+
+            exit(1);
+        }
         strcpy(buffer, texto.linhas[i]);
 
         // Apaga cada sinal de pontuacao e o substitui por um espaco
