@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
                     else
                     {
                         printf("Existem %d ocorrencias da palavra", resultado->quantidade);
-                        printf("'%s' na(s) seguinte(s) linha(s):\n", resultado->palavra);
+                        printf(" '%s' na(s) seguinte(s) linha(s):\n", resultado->palavra);
                         sublista *p = resultado->ocorrencias;
 
                         // Imprime todas as ocorrencias da palavra
@@ -283,7 +283,7 @@ int main(int argc, char *argv[])
                     else
                     {
                         printf("Existem %d ocorrencias da palavra", resultado->quantidade);
-                        printf("'%s' na(s) seguinte(s) linha(s):\n", resultado->palavra);
+                        printf(" '%s' na(s) seguinte(s) linha(s):\n", resultado->palavra);
                         sublista *p = resultado->ocorrencias;
 
                         // Imprime todas as ocorrencias da palavra
